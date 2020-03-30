@@ -1,5 +1,6 @@
 #include "Header.h"
 #include <iostream>
+#include <SDL_image.h>
 
 
 void logSDLError(std::ostream& os, const std::string& msg, bool fatal)
@@ -50,5 +51,21 @@ void waitKeyPressed()
             return;
         }
         SDL_Delay(300);
+    }
+}
+
+SDL_Surface* image(std::string file) {
+
+    SDL_Surface* load_image = NULL;
+
+    load_image = IMG_Load(file.c_str());
+
+    if (load_image != NULL) {
+        return load_image;
+    }
+
+    else {
+        std::cout << "Could not be load background.jpg!" << std::endl;
+        return NULL;
     }
 }

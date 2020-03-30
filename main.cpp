@@ -7,22 +7,6 @@ const int SCREEN_WIDTH = 900;
 const int SCREEN_HEIGHT = 507;
 const std::string WINDOW_TITLE = "This game is made by Thaehan";
 
-SDL_Surface* image(std::string file) {
-    
-    SDL_Surface* load_image = NULL;
-
-    load_image = IMG_Load(file.c_str());
-
-    if (load_image != NULL) {
-        return load_image;
-    }
-
-    else {
-        std::cout << "Could not be load background.jpg!" << std::endl;
-        return NULL;
-    }
-}
-
 int main(int argc, char* argv[])
 {
     SDL_Surface* background = NULL;
