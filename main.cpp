@@ -17,14 +17,7 @@ int main(int argc, char* argv[])
     initSDL(window, renderer, SCREEN_WIDTH, SCREEN_HEIGHT, WINDOW_TITLE);
 
     //Background game
-
-    background = image("background.jpg");
-
-    windowSurface = SDL_GetWindowSurface(window);
-
-    SDL_BlitSurface(background, NULL, windowSurface, NULL);
-
-    SDL_UpdateWindowSurface(window);
+    backgroundgame(background, windowSurface, window);
     
     //ve game o day - SDL_RenderPresent(renderer)
 

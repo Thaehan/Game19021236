@@ -20,4 +20,7 @@ void waitKeyPressed();
 //Get background for game
 SDL_Surface* image(std::string file);
 
+//Print background game
+void backgroundgame(SDL_Surface* background, SDL_Surface* windowSurface, SDL_Window* window);
+
 #endif

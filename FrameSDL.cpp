@@ -54,18 +54,3 @@ void waitKeyPressed()
     }
 }
 
-SDL_Surface* image(std::string file) {
-
-    SDL_Surface* load_image = NULL;
-
-    load_image = IMG_Load(file.c_str());
-
-    if (load_image != NULL) {
-        return load_image;
-    }
-
-    else {
-        std::cout << "Could not be load background.jpg!" << std::endl;
-        return NULL;
-    }
-}
