@@ -1,4 +1,6 @@
-#include "Header.h"
+#include "FrameSDL.h"
+#include "MainObj.h"
+#include <string>
 #include <SDL.h>
 #include <SDL_image.h>
 
@@ -13,7 +15,6 @@ SDL_Surface* image(std::string file) {
     }
 
     else {
-        std::cout << "Could not be load background.jpg!" << std::endl;
         return NULL;
     }
 }
@@ -21,9 +22,17 @@ SDL_Surface* image(std::string file) {
 void backgroundgame(SDL_Surface* background, SDL_Surface* windowSurface, SDL_Window* window) {
     background = image("background.jpg");
 
-    windowSurface = SDL_GetWindowSurface(window);
+    if (background == NULL) {
+        logSDLError(std::cout, "Can't open background image!" , true);
+    }
 
-    SDL_BlitSurface(background, NULL, windowSurface, NULL);
+    else {
+        windowSurface = SDL_GetWindowSurface(window);
 
-    SDL_UpdateWindowSurface(window);
+        SDL_BlitSurface(background, NULL, windowSurface, NULL);
+
+        SDL_UpdateWindowSurface(window);
+    }
 }
+
+

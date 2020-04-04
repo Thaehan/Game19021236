@@ -5,3 +5,5 @@ Game1.vcxproj.filters
 Game1.vcxproj.user
 Game1.vcxproj.filters
 Game1.vcxproj
+zlib1.dll
+libfreetype-6.dll

@@ -5,6 +5,10 @@
 #include <SDL.h>
 #include <SDL_image.h>
 
+const int SCREEN_WIDTH = 800;
+const int SCREEN_HEIGHT = 600;
+const std::string WINDOW_TITLE = "This game is made by Thaehan";
+
 //This function will show the Error: standard output - Name of error - check funtion
 void logSDLError(std::ostream& os, const std::string& msg, bool fatal = false);
 
@@ -16,11 +20,5 @@ void quitSDL(SDL_Window* window, SDL_Renderer* renderer, SDL_Surface* background
 
 //Wait for a click or pressed key
 void waitKeyPressed();
-
-//Get background for game
-SDL_Surface* image(std::string file);
-
-//Print background game
-void backgroundgame(SDL_Surface* background, SDL_Surface* windowSurface, SDL_Window* window);
 
 #endif

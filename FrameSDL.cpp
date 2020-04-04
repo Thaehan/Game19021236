@@ -1,7 +1,6 @@
-#include "Header.h"
+#include "FrameSDL.h"
 #include <iostream>
 #include <SDL_image.h>
-
 
 void logSDLError(std::ostream& os, const std::string& msg, bool fatal)
 {
@@ -15,19 +14,19 @@ void logSDLError(std::ostream& os, const std::string& msg, bool fatal)
 void initSDL(SDL_Window*& window, SDL_Renderer*& renderer, int SCREEN_WIDTH, int SCREEN_HEIGHT, const std::string &WINDOW_TITLE)
 {
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
-        logSDLError(std::cout, "SDL_Init", true);
+        logSDLError(std::cout, "SDL Init Error!", true);
     }
 
     window = SDL_CreateWindow(WINDOW_TITLE.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 
     if (window == nullptr) {
-        logSDLError(std::cout, "CreateWindow", true);
+        logSDLError(std::cout, "CreateWindow Error!", true);
     }
 
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
     if (renderer == nullptr) {
-        logSDLError(std::cout, "CreateRenderer", true);
+        logSDLError(std::cout, "CreateRenderer Error!", true);
     }
 
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
@@ -47,7 +46,7 @@ void waitKeyPressed()
 {
     SDL_Event e;
     while (true) {
-        if (SDL_WaitEvent(&e) != 0 && (e.type == SDL_KEYDOWN || e.type == SDL_QUIT)) {
+        if (SDL_WaitEvent(&e) != 0 && (e.key.keysym.sym == SDLK_ESCAPE || e.type == SDL_QUIT)) {
             return;
         }
         SDL_Delay(300);
