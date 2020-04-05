@@ -8,6 +8,8 @@
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 600;
 const std::string WINDOW_TITLE = "This game is made by Thaehan";
+const std::string filebackground = "background.jpg";
+const int stepDelay = 40;
 
 //This function will show the Error: standard output - Name of error - check funtion
 void logSDLError(std::ostream& os, const std::string& msg, bool fatal = false);

@@ -1,3 +1,5 @@
-﻿  main.cpp
+﻿  MainObj.cpp
+  main.cpp
 C:\Project\Game\Game1\main.cpp(11,15): warning C4101: 'event': unreferenced local variable
+  Generating Code...
   Game1.vcxproj -> C:\Project\Game\Game1\Debug\Game1.exe

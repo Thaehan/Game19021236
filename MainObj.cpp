@@ -4,35 +4,107 @@
 #include <SDL.h>
 #include <SDL_image.h>
 
-SDL_Surface* image(std::string file) {
+void snake::render(SDL_Renderer* renderer) {
+    
+    SDL_Rect filled_rect;
+    filled_rect.x = x;
+    filled_rect.y = y;
+    filled_rect.w = size;
+    filled_rect.h = size;
 
-    SDL_Surface* load_image = NULL;
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 
-    load_image = IMG_Load(file.c_str());
+    SDL_RenderFillRect(renderer, &filled_rect);
+  
+}
 
-    if (load_image != NULL) {
-        return load_image;
-    }
+void snake::renderSnake(SDL_Renderer* renderer) {
+    while (inside(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)) {
 
-    else {
-        return NULL;
+        SDL_Event e;
+        
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+        
+        SDL_RenderClear(renderer);
+
+        render(renderer);
+
+        SDL_RenderPresent(renderer);
+
+        SDL_Delay(stepDelay);
+
+        if (SDL_PollEvent(&e)) {
+            continue;
+        }
+
+        if (e.type == SDL_QUIT) {
+            break;
+        }
+
+        if (e.type == SDL_KEYDOWN) {
+            switch (e.key.keysym.sym) {
+            case SDLK_UP:
+                turnUp();
+                break;
+            case SDLK_DOWN:
+                turnDown();
+                break;
+            case SDLK_RIGHT:
+                turnRight();
+                break;
+            case SDLK_LEFT:
+                turnLeft();
+                break;
+            default:
+                break;
+            }
+        }
+
+        move();
     }
 }
 
-void backgroundgame(SDL_Surface* background, SDL_Surface* windowSurface, SDL_Window* window) {
-    background = image("background.jpg");
+bool snake::inside(int minx, int miny, int maxx, int maxy) {
+    return (minx <= x && miny <= y && x + size < maxx&& y + size < maxy);
+}
 
+void snake::move() {
+    x += stepx;
+    y += stepy;
+    std::cout << stepx << "," << stepy << std::endl;
+}
+
+void snake::turnLeft() {
+    stepx = -size;
+    stepy = 0;
+}
+
+void snake::turnRight() {
+    stepx = size;
+    stepy = 0;
+}
+
+void snake::turnUp() {
+    stepy = -size;
+    stepx = 0;
+}
+
+void snake::turnDown() {
+    stepy = size;
+    stepx = 0;
+}
+
+void printBackground(SDL_Surface* background, SDL_Surface* windowSurface, SDL_Window* window) {
+    background = IMG_Load(filebackground.c_str());
     if (background == NULL) {
-        logSDLError(std::cout, "Can't open background image!" , true);
+        std::cout << "Can't open background file!" << std::endl;
     }
 
-    else {
-        windowSurface = SDL_GetWindowSurface(window);
+    windowSurface = SDL_GetWindowSurface(window);
 
-        SDL_BlitSurface(background, NULL, windowSurface, NULL);
+    SDL_BlitSurface(background, NULL, windowSurface, NULL);
 
-        SDL_UpdateWindowSurface(window);
-    }
+    SDL_UpdateWindowSurface(window);
 }
 
 

@@ -10,13 +10,17 @@ int main(int argc, char* argv[])
     SDL_Renderer* renderer = NULL;
     SDL_Event event;
 
+    snake player;
+
     initSDL(window, renderer, SCREEN_WIDTH, SCREEN_HEIGHT, WINDOW_TITLE);
 
     //Background game
-    backgroundgame(background, windowSurface, window);
+    
 
     //ve game o day - SDL_RenderPresent(renderer)
 	
+    player.renderSnake(renderer);
+
     waitKeyPressed();
     quitSDL(window, renderer, background, windowSurface);
     return 0;
