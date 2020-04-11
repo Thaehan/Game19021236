@@ -80,6 +80,8 @@ public:
 	void moveDirection();
 
 	void gameLoop(SDL_Renderer* renderer);
+
+	void firstFruit(SDL_Renderer* renderer);
 };
 
 #endif

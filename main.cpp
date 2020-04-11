@@ -12,12 +12,7 @@ int main(int argc, char* argv[])
 
     Game gamesnake;
 
-    gamesnake.getFruitLoc(wscale, hscale);
-    gamesnake.fruitBox.x = gamesnake.fruitLoc.x;
-    gamesnake.fruitBox.y = gamesnake.fruitLoc.y;
-    gamesnake.renderFruit(renderer);
-    SDL_RenderPresent(renderer);
-
+    gamesnake.firstFruit(renderer);
     gamesnake.gameLoop(renderer);
 
     gamesnake.~Game();

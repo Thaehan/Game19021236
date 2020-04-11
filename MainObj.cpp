@@ -372,3 +372,10 @@ void Game::gameLoop(SDL_Renderer* renderer)
 
 }
 
+void Game::firstFruit(SDL_Renderer* renderer){
+	getFruitLoc(hscale, wscale);
+	fruitBox.x = fruitLoc.x;
+	fruitBox.y = fruitLoc.y;
+	renderFruit(renderer);
+	SDL_RenderPresent(renderer);
+}
