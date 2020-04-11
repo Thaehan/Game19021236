@@ -13,6 +13,8 @@ int main(int argc, char* argv[])
     Game gamesnake;
 
     gamesnake.getFruitLoc(wscale, hscale);
+    gamesnake.renderFruit(renderer);
+    SDL_RenderPresent(renderer);
 
     gamesnake.gameLoop(renderer);
 
