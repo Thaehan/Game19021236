@@ -6,8 +6,6 @@
 #include <SDL.h>
 #include <Windows.h>
 
-
-
 //This function will show the Error: standard output - Name of error - check funtion
 void logSDLError(std::ostream& os, const std::string& msg, bool fatal = false);
 

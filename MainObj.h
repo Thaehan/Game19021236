@@ -10,15 +10,15 @@
 #include <string>
 #include <Windows.h>
 
-//Window setting
+//Window setting - should not be change!
 const int hscale = 24;
 const int wscale = 24;
 
 const int SCREEN_WIDTH = hscale * wscale;
 const int SCREEN_HEIGHT = hscale * wscale + 1;
-const std::string WINDOW_TITLE = "Simple snake by Thaehan";
+const std::string WINDOW_TITLE = "Simple Snake by Do Van Dat";
 
-//Speed: >= 50 (50 is the fastest speed)
+//Speed: >= 50 && <= 80 (50 is the fastest speed - This should not be change because it can cause errors)
 const int speed = 80;
 
 class Game 
@@ -28,18 +28,24 @@ public:
 	~Game();
 
 	struct snakeLocation {
-		int x;
-		int y;
+		int x = 0;
+		int y = 0;
 		int prex = 0;
 		int prey = 0;
 	} snakeLoc;
 
 	struct fruitLocation {
-		int x;
-		int y;
+		int x = 0;
+		int y = 0;
 	} fruitLoc;
 
 
+	//Tail positions
+	std::vector <int> tailX;
+	std::vector <int> tailY;
+	
+
+	//Rect of snake and fruit
 	SDL_Rect snakeBox = { 0, 0, 0, 0 };
 	SDL_Rect fruitBox = { 0, 0, hscale, wscale };
 
@@ -57,11 +63,11 @@ public:
 	bool checkMove = false;
 	bool redo = false;
 
-	void renderSnake(SDL_Renderer* renderer, int hscale, std::vector <int>& tailX, std::vector <int>& tailY);
+	void renderSnake(SDL_Renderer* renderer, int hscale);
 
 	void renderFruit(SDL_Renderer* renderer);
 
-	void getFruitLoc(int hscale, int wscale, std::vector <int> &tailX, std::vector <int> &tailY);
+	void getFruitLoc(int hscale, int wscale);
 
 	bool checkCollision();
 
@@ -73,7 +79,7 @@ public:
 
 	void moveDirection();
 
-	void gameLoop(SDL_Renderer* renderer, std::vector <int>& tailX, std::vector <int>& tailY);
+	void gameLoop(SDL_Renderer* renderer);
 };
 
 #endif

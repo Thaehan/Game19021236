@@ -7,8 +7,8 @@
 #include <string>
 #include <Windows.h>
 
-
-Game::Game() 
+//Two necessary functions @@
+Game::Game()
 {
 
 }
@@ -18,14 +18,14 @@ Game::~Game()
 
 }
 
-//Render snake 
-void Game::renderSnake(SDL_Renderer* renderer, int hscale, std::vector <int> &tailX, std::vector <int> &tailY)
+//Render snake rect
+void Game::renderSnake(SDL_Renderer* renderer, int hscale)
 {
 	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 	snakeBox.w = hscale;
 	snakeBox.h = hscale;
 
-	// Gets x and y of all tail blocks and renders them
+	// Gets x and y of all tail blocks and renders
 	for (int i = 0; i < tailLength; i++) {
 		snakeBox.x = tailX[i];
 		snakeBox.y = tailY[i];
@@ -39,16 +39,16 @@ void Game::renderSnake(SDL_Renderer* renderer, int hscale, std::vector <int> &ta
 }
 
 
-//Render fruit
+//Render fruit rect
 void Game::renderFruit(SDL_Renderer* renderer)
 {
-	SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
+	SDL_SetRenderDrawColor(renderer, 200, 0, 0, 255);
 	SDL_RenderFillRect(renderer, &fruitBox);
 }
 
 
 //Get spawn location of food
-void Game::getFruitLoc(int hscale, int wscale, std::vector <int> &tailX, std::vector <int> &tailY)
+void Game::getFruitLoc(int hscale, int wscale)
 {
 	int x = 0;
 	int y = 0;
@@ -89,10 +89,10 @@ bool Game::checkCollision()
 //Print Score on screen
 void Game::printScore(SDL_Renderer* renderer, int hscale, int wscale)
 {
-	std::cout << "Your score:" << std::to_string(tailLength * 10).c_str() << std::endl;
+	std::cout << "Your score: " << std::to_string(tailLength * 10).c_str() << std::endl;
 }
 
-//Screen when you lose!
+//Game Over
 void Game::gameOver(SDL_Renderer* renderer, int hscale, int wscale)
 {
 	std::cout << "This is not fruit! Try again by press Space!";
@@ -114,7 +114,7 @@ void Game::gameOver(SDL_Renderer* renderer, int hscale, int wscale)
 
 }
 
-//Screen when you win!
+//Congratulation!
 void Game::gameWin(SDL_Renderer* renderer, int hscale, int wscale)
 {
 	std::cout << "Congratulation! You win snake game! Press Space to play again!";
@@ -186,7 +186,7 @@ void Game::moveDirection()
 }
 
 //Game loop
-void Game::gameLoop(SDL_Renderer* renderer, std::vector <int> &tailX, std::vector <int> &tailY)
+void Game::gameLoop(SDL_Renderer* renderer)
 {
 	while (true) {
 
@@ -196,22 +196,24 @@ void Game::gameLoop(SDL_Renderer* renderer, std::vector <int> &tailX, std::vecto
 
 		checkMove = false;
 
-
-
 		//If you win game
 		if (tailLength >= hscale * wscale - 1) {
 			gameWin(renderer, hscale, wscale);
 			snakeLoc.x = 0;
 			snakeLoc.y = 0;
+			
 			up = false;
 			left = false;
 			right = false;
 			down = false;
+			
 			tailX.clear();
 			tailY.clear();
+			
 			tailLength = 0;
 			redo = false;
-			getFruitLoc(hscale, wscale, tailX, tailY);
+			
+			getFruitLoc(hscale, wscale);
 
 			if (fruitLoc.x == -100 && fruitLoc.y == -100) {
 				redo = true;
@@ -244,7 +246,7 @@ void Game::gameLoop(SDL_Renderer* renderer, std::vector <int> &tailX, std::vecto
 		if (redo == true) {
 
 			redo = false;
-			getFruitLoc(hscale, wscale, tailX, tailY);
+			getFruitLoc(hscale, wscale);
 
 			if (fruitLoc.x == -100 && fruitLoc.y == -100) {
 				redo = true;
@@ -256,7 +258,7 @@ void Game::gameLoop(SDL_Renderer* renderer, std::vector <int> &tailX, std::vecto
 		if (checkCollision()) {
 
 			// Spawn new food after it has been eaten
-			getFruitLoc(hscale, wscale, tailX, tailY);
+			getFruitLoc(hscale, wscale);
 			fruitBox.x = fruitLoc.x;
 			fruitBox.y = fruitLoc.y;
 
@@ -270,14 +272,13 @@ void Game::gameLoop(SDL_Renderer* renderer, std::vector <int> &tailX, std::vecto
 		// Only runs in the frames where the player block has moved
 		if (delta * hscale == 24) {
 
-			// Update tail size and position
+			//Update tail
 			if (tailX.size() != tailLength) {
 				tailX.push_back(snakeLoc.prex);
 				tailY.push_back(snakeLoc.prey);
 			}
 
-			//Loop through every tail block, move all blocks to the nearest block in front
-			//This updates the blocks from end (farthest from player block) to the start (nearest to player block)
+			//Move box
 			for (int i = 0; i < tailLength; i++) {
 
 				if (i > 0) {
@@ -294,22 +295,25 @@ void Game::gameLoop(SDL_Renderer* renderer, std::vector <int> &tailX, std::vecto
 
 		}
 
-		// Game over if player has collided with a tail block, also reset everything
+		//If snake collises the window or tail
 		for (int i = 0; i < tailLength; i++) {
 			if (snakeLoc.x == tailX[i] && snakeLoc.y == tailY[i]) {
 				gameOver(renderer, hscale, wscale);
 				snakeLoc.x = 0;
 				snakeLoc.y = 0;
+				
 				up = false;
 				left = false;
 				right = false;
 				down = false;
+				
 				tailX.clear();
 				tailY.clear();
+				
 				tailLength = 0;
 				redo = false;
 
-				getFruitLoc(hscale, wscale, tailX, tailY);
+				getFruitLoc(hscale, wscale);
 				if (fruitLoc.x == -100 && fruitLoc.y == -100) {
 					redo = true;
 				}
@@ -319,23 +323,27 @@ void Game::gameLoop(SDL_Renderer* renderer, std::vector <int> &tailX, std::vecto
 			}
 		}
 
-		// Game over if player out of bounds, also resets the game state
+		//Game over and reset
 		if (snakeLoc.x < 0 || snakeLoc.y < 0 || snakeLoc.x > hscale * wscale - hscale || snakeLoc.y > hscale * wscale - hscale) {
 			gameOver(renderer, hscale, wscale);
 			snakeLoc.x = 0;
 			snakeLoc.y = 0;
+			
 			up = false;
 			left = false;
 			right = false;
 			down = false;
+			
 			tailX.clear();
 			tailY.clear();
+			
 			tailLength = 0;
 			redo = false;
-			getFruitLoc(hscale, wscale, tailX, tailY);
+			
+			getFruitLoc(hscale, wscale);
 			fruitBox.x = fruitLoc.x;
 			fruitBox.y = fruitLoc.y;
-
+			
 			if (fruitLoc.x == -100 && fruitLoc.y == -100) {
 				redo = true;
 			}
@@ -344,7 +352,7 @@ void Game::gameLoop(SDL_Renderer* renderer, std::vector <int> &tailX, std::vecto
 
 		// Render everything
 		renderFruit(renderer);
-		renderSnake(renderer, hscale, tailX, tailY);
+		renderSnake(renderer, hscale);
 		printScore(renderer, hscale, wscale);
 
 		SDL_RenderDrawLine(renderer, 0, 0, 0, hscale * wscale);
