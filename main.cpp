@@ -4,24 +4,22 @@
 
 int main(int argc, char* argv[])
 {
-    SDL_Surface* background = NULL;
-    SDL_Surface* windowSurface = NULL;
     SDL_Window* window = NULL;
     SDL_Renderer* renderer = NULL;
-    SDL_Event event;
 
-    snake player;
+    std::vector<int> tailX;
+    std::vector<int> tailY;
 
+    SDL_Init(SDL_INIT_EVERYTHING);
     initSDL(window, renderer, SCREEN_WIDTH, SCREEN_HEIGHT, WINDOW_TITLE);
 
-    //Background game
-    
+    Game gamesnake;
 
-    //ve game o day - SDL_RenderPresent(renderer)
-	
-    player.renderSnake(renderer);
+    gamesnake.gameLoop(renderer, tailX, tailY);
 
-    waitKeyPressed();
-    quitSDL(window, renderer, background, windowSurface);
+    gamesnake.~Game();
+    quitSDL(window, renderer);
+    SDL_Quit();
+
     return 0;
 }

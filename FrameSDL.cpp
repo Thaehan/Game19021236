@@ -13,11 +13,12 @@ void logSDLError(std::ostream& os, const std::string& msg, bool fatal)
 
 void initSDL(SDL_Window*& window, SDL_Renderer*& renderer, int SCREEN_WIDTH, int SCREEN_HEIGHT, const std::string &WINDOW_TITLE)
 {
+    SDL_Init(SDL_INIT_EVERYTHING);
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
         logSDLError(std::cout, "SDL Init Error!", true);
     }
 
-    window = SDL_CreateWindow(WINDOW_TITLE.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+    window = SDL_CreateWindow(WINDOW_TITLE.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_RESIZABLE);
 
     if (window == nullptr) {
         logSDLError(std::cout, "CreateWindow Error!", true);
@@ -33,10 +34,8 @@ void initSDL(SDL_Window*& window, SDL_Renderer*& renderer, int SCREEN_WIDTH, int
     SDL_RenderSetLogicalSize(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
 }
 
-void quitSDL(SDL_Window* window, SDL_Renderer* renderer, SDL_Surface* background, SDL_Surface* windowSurface)
+void quitSDL(SDL_Window* window, SDL_Renderer* renderer)
 {
-    SDL_FreeSurface(background);
-    SDL_FreeSurface(windowSurface);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();

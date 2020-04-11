@@ -1,5 +1,9 @@
 ﻿  MainObj.cpp
-  main.cpp
-C:\Project\Game\Game1\main.cpp(11,15): warning C4101: 'event': unreferenced local variable
-  Generating Code...
+C:\Project\Game\Game1\MainObj.h(48,31): warning C4244: 'initializing': conversion from 'Uint32' to 'float', possible loss of data
+C:\Project\Game\Game1\MainObj.cpp(58,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Project\Game\Game1\MainObj.cpp(194,17): warning C4244: 'initializing': conversion from 'Uint32' to 'float', possible loss of data
+C:\Project\Game\Game1\MainObj.cpp(233,32): warning C4244: '-=': conversion from 'float' to 'int', possible loss of data
+C:\Project\Game\Game1\MainObj.cpp(236,32): warning C4244: '-=': conversion from 'float' to 'int', possible loss of data
+C:\Project\Game\Game1\MainObj.cpp(239,32): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
+C:\Project\Game\Game1\MainObj.cpp(242,32): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
   Game1.vcxproj -> C:\Project\Game\Game1\Debug\Game1.exe
