@@ -5,7 +5,6 @@
 #include <algorithm>
 #include <SDL.h>
 #include <string>
-#include <SDL_ttf.h>
 #include <Windows.h>
 
 
