@@ -10,7 +10,7 @@
 //Two necessary functions @@
 Game::Game()
 {
-
+	SDL_Event e;
 }
 
 Game::~Game() 
@@ -67,8 +67,8 @@ void Game::getFruitLoc(int hscale, int wscale)
 	}
 
 	if (!check) {
-		fruitLoc.x = -100;
-		fruitLoc.y = -100;
+		fruitLoc.x = -300;
+		fruitLoc.y = -300;
 	}
 
 	fruitLoc.x = x;
@@ -215,7 +215,7 @@ void Game::gameLoop(SDL_Renderer* renderer)
 			
 			getFruitLoc(hscale, wscale);
 
-			if (fruitLoc.x == -100 && fruitLoc.y == -100) {
+			if (fruitLoc.x == -300 && fruitLoc.y == -300) {
 				redo = true;
 			}
 
@@ -248,7 +248,7 @@ void Game::gameLoop(SDL_Renderer* renderer)
 			redo = false;
 			getFruitLoc(hscale, wscale);
 
-			if (fruitLoc.x == -100 && fruitLoc.y == -100) {
+			if (fruitLoc.x == -300 && fruitLoc.y == -300) {
 				redo = true;
 			}
 
@@ -262,7 +262,7 @@ void Game::gameLoop(SDL_Renderer* renderer)
 			fruitBox.x = fruitLoc.x;
 			fruitBox.y = fruitLoc.y;
 
-			if (fruitLoc.x == -100 && fruitLoc.y == -100) {
+			if (fruitLoc.x == -300 && fruitLoc.y == -300) {
 				redo = true;
 			}
 
@@ -270,7 +270,7 @@ void Game::gameLoop(SDL_Renderer* renderer)
 		}
 
 		// Only runs in the frames where the player block has moved
-		if (delta * hscale == 24) {
+		if (delta * hscale == hscale) {
 
 			//Update tail
 			if (tailX.size() != tailLength) {
@@ -314,7 +314,7 @@ void Game::gameLoop(SDL_Renderer* renderer)
 				redo = false;
 
 				getFruitLoc(hscale, wscale);
-				if (fruitLoc.x == -100 && fruitLoc.y == -100) {
+				if (fruitLoc.x == -300 && fruitLoc.y == -300) {
 					redo = true;
 				}
 
@@ -344,7 +344,7 @@ void Game::gameLoop(SDL_Renderer* renderer)
 			fruitBox.x = fruitLoc.x;
 			fruitBox.y = fruitLoc.y;
 			
-			if (fruitLoc.x == -100 && fruitLoc.y == -100) {
+			if (fruitLoc.x == -300 && fruitLoc.y == -300) {
 				redo = true;
 			}
 

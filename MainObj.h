@@ -11,11 +11,11 @@
 #include <Windows.h>
 
 //Window setting - should not be change!
-const int hscale = 24;
-const int wscale = 24;
+const int hscale = 30;
+const int wscale = 30;
 
 const int SCREEN_WIDTH = hscale * wscale;
-const int SCREEN_HEIGHT = hscale * wscale + 1;
+const int SCREEN_HEIGHT = hscale * wscale;
 const std::string WINDOW_TITLE = "Simple Snake by Do Van Dat";
 
 //Speed: >= 50 && <= 80 (50 is the fastest speed - This should not be change because it can cause errors)
