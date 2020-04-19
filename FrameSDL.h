@@ -4,6 +4,7 @@
 #include "MainObj.h"
 #include <iostream>
 #include <SDL.h>
+#include <SDL_ttf.h>
 #include <Windows.h>
 
 //This function will show the Error: standard output - Name of error - check funtion

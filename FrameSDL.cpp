@@ -25,6 +25,7 @@ void initSDL(SDL_Window*& window, SDL_Renderer*& renderer, int SCREEN_WIDTH, int
     }
 
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
 
     if (renderer == nullptr) {
         logSDLError(std::cout, "CreateRenderer Error!", true);

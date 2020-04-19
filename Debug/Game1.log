@@ -1,15 +1,17 @@
 ﻿  FrameSDL.cpp
-C:\Project\Game\Game1\MainObj.h(52,31): warning C4244: 'initializing': conversion from 'Uint32' to 'float', possible loss of data
+C:\Project\Game\Game1\MainObj.h(56,31): warning C4244: 'initializing': conversion from 'Uint32' to 'float', possible loss of data
   MainObj.cpp
-C:\Project\Game\Game1\MainObj.h(52,31): warning C4244: 'initializing': conversion from 'Uint32' to 'float', possible loss of data
-C:\Project\Game\Game1\MainObj.cpp(13,12): warning C4101: 'e': unreferenced local variable
-C:\Project\Game\Game1\MainObj.cpp(57,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-C:\Project\Game\Game1\MainObj.cpp(193,17): warning C4244: 'initializing': conversion from 'Uint32' to 'float', possible loss of data
-C:\Project\Game\Game1\MainObj.cpp(234,32): warning C4244: '-=': conversion from 'float' to 'int', possible loss of data
-C:\Project\Game\Game1\MainObj.cpp(237,32): warning C4244: '-=': conversion from 'float' to 'int', possible loss of data
-C:\Project\Game\Game1\MainObj.cpp(240,32): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
-C:\Project\Game\Game1\MainObj.cpp(243,32): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
+C:\Project\Game\Game1\MainObj.h(56,31): warning C4244: 'initializing': conversion from 'Uint32' to 'float', possible loss of data
+C:\Project\Game\Game1\MainObj.cpp(7,12): warning C4101: 'e': unreferenced local variable
+C:\Project\Game\Game1\MainObj.cpp(48,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Project\Game\Game1\MainObj.cpp(172,30): warning C4244: '-=': conversion from 'float' to 'int', possible loss of data
+C:\Project\Game\Game1\MainObj.cpp(176,30): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
+C:\Project\Game\Game1\MainObj.cpp(180,30): warning C4244: '-=': conversion from 'float' to 'int', possible loss of data
+C:\Project\Game\Game1\MainObj.cpp(184,30): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
+C:\Project\Game\Game1\MainObj.cpp(236,17): warning C4244: 'initializing': conversion from 'Uint32' to 'float', possible loss of data
+  background.cpp
+C:\Project\Game\Game1\MainObj.h(56,31): warning C4244: 'initializing': conversion from 'Uint32' to 'float', possible loss of data
   main.cpp
-C:\Project\Game\Game1\MainObj.h(52,31): warning C4244: 'initializing': conversion from 'Uint32' to 'float', possible loss of data
+C:\Project\Game\Game1\MainObj.h(56,31): warning C4244: 'initializing': conversion from 'Uint32' to 'float', possible loss of data
   Generating Code...
   Game1.vcxproj -> C:\Project\Game\Game1\Debug\Game1.exe
