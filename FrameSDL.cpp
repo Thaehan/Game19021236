@@ -14,6 +14,7 @@ void logSDLError(std::ostream& os, const std::string& msg, bool fatal)
 void initSDL(SDL_Window*& window, SDL_Renderer*& renderer, int SCREEN_WIDTH, int SCREEN_HEIGHT, const std::string &WINDOW_TITLE)
 {
     SDL_Init(SDL_INIT_EVERYTHING);
+    TTF_Init();
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
         logSDLError(std::cout, "SDL Init Error!", true);
     }
@@ -35,10 +36,14 @@ void initSDL(SDL_Window*& window, SDL_Renderer*& renderer, int SCREEN_WIDTH, int
     SDL_RenderSetLogicalSize(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
 }
 
-void quitSDL(SDL_Window* window, SDL_Renderer* renderer)
+void quitSDL(SDL_Window* window, SDL_Renderer* renderer, SDL_Texture* bgImage)
 {
     SDL_DestroyRenderer(renderer);
+    SDL_DestroyTexture(bgImage);
+    renderer = NULL;
+    bgImage = NULL;
     SDL_DestroyWindow(window);
+    IMG_Quit();
     SDL_Quit();
 }
 

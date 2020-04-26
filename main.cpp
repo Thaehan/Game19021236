@@ -1,6 +1,7 @@
 #include "FrameSDL.h"
-#include "MainObj.h"
+#include "snake.h"
 #include "background.h"
+#include "game.h"
 
 
 int main(int argc, char* argv[])
@@ -13,20 +14,21 @@ int main(int argc, char* argv[])
     initSDL(window, renderer, SCREEN_WIDTH, SCREEN_HEIGHT, WINDOW_TITLE);
 
     //Game class
-    Game gamesnake;
     background backgroundgame;
+    game Game;
 
     //Load image background
     bgImage = backgroundgame.loadTexture(bgFile.c_str(), renderer);
 
     //Start game
-    gamesnake.firstFruit(renderer);
-    gamesnake.gameLoop(renderer, bgImage);
+    do{
+        Game.gameLoop(renderer, bgImage);
+    } while (Game.redo == true);
 
     //Close game
-    gamesnake.~Game();
     backgroundgame.~background();
-    quitSDL(window, renderer);
+    Game.~game();
+    quitSDL(window, renderer, bgImage);
     SDL_Quit();
 
     return 0;

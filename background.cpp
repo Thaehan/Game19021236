@@ -1,6 +1,5 @@
 #include "background.h"
 #include "FrameSDL.h"
-#include "MainObj.h"
 
 background::background() {};
 background::~background() {};
