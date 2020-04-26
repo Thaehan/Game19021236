@@ -1,2 +1,4 @@
 C:\Project\Game\Game1\Debug\Game1.exe
 C:\Project\Game\Game1\Debug\Game1.pdb
+C:\Project\ran 2\Game1\Debug\Game1.exe
+C:\Project\ran 2\Game1\Debug\Game1.pdb

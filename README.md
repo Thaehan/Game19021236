@@ -10,9 +10,7 @@ This is a Simple Snake game!
 
 - You will lose when snake collisies the the window's edges or itself. - Press Space to restart game!
 
-- Background is just black and it will be an image soon!
-
 **How to install:
-- This game needs SDL2 to run!
+- This game needs SDL2, SDL2-image, SDL2-TTF to run!
 
 - Download file "DownloadGameHere" and play!

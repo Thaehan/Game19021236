@@ -1,13 +1,7 @@
 #include "MainObj.h"
-#include <iostream>
-#include <ctime>
-#include <vector>
-#include <algorithm>
-#include <SDL.h>
-#include <string>
-#include <Windows.h>
 
-//Two necessary functions @@
+
+//Two necessary functions
 Game::Game()
 {
 	SDL_Event e;
@@ -18,7 +12,7 @@ Game::~Game()
 
 }
 
-//Render snake rect
+//Render snake and fruit
 void Game::renderSnake(SDL_Renderer* renderer, int hscale)
 {
 	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
@@ -38,16 +32,13 @@ void Game::renderSnake(SDL_Renderer* renderer, int hscale)
 	SDL_RenderFillRect(renderer, &snakeBox);
 }
 
-
-//Render fruit rect
 void Game::renderFruit(SDL_Renderer* renderer)
 {
 	SDL_SetRenderDrawColor(renderer, 200, 0, 0, 255);
 	SDL_RenderFillRect(renderer, &fruitBox);
 }
 
-
-//Get spawn location of food
+//Get fruit location and check collision
 void Game::getFruitLoc(int hscale, int wscale)
 {
 	int x = 0;
@@ -67,15 +58,14 @@ void Game::getFruitLoc(int hscale, int wscale)
 	}
 
 	if (!check) {
-		fruitLoc.x = -300;
-		fruitLoc.y = -300;
+		fruitLoc.x = 0;
+		fruitLoc.y = 0;
 	}
 
 	fruitLoc.x = x;
 	fruitLoc.y = y;
 }
 
-//Check the snake if collisy
 bool Game::checkCollision()
 {
 
@@ -86,14 +76,13 @@ bool Game::checkCollision()
 	return false;
 }
 
-//Print Score on screen
-void Game::printScore(SDL_Renderer* renderer, int hscale, int wscale)
+//Render score and game screen
+void Game::renderScore(SDL_Renderer* renderer, int hscale, int wscale)
 {
 	std::cout << "Your score: " << std::to_string(tailLength * 10).c_str() << std::endl;
 }
 
-//Game Over
-void Game::gameOver(SDL_Renderer* renderer, int hscale, int wscale)
+void Game::renderGameOver(SDL_Renderer* renderer, int hscale, int wscale)
 {
 	std::cout << "This is not fruit! Try again by press Space!";
 	while (true) {
@@ -114,8 +103,7 @@ void Game::gameOver(SDL_Renderer* renderer, int hscale, int wscale)
 
 }
 
-//Congratulation!
-void Game::gameWin(SDL_Renderer* renderer, int hscale, int wscale)
+void Game::renderGameWin(SDL_Renderer* renderer, int hscale, int wscale)
 {
 	std::cout << "Congratulation! You win snake game! Press Space to play again!";
 
@@ -137,20 +125,16 @@ void Game::gameWin(SDL_Renderer* renderer, int hscale, int wscale)
 
 }
 
-//Control direction
+//Movements
 void Game::moveDirection() 
 {
 	if (SDL_PollEvent(&event)) {
 
-		// Simply exit the program when told to
 		if (event.type == SDL_QUIT) {
 			exit(0);
 		}
 
-		// If a key is pressed
 		if (event.type == SDL_KEYDOWN && checkMove == false) {
-
-			// Then check for the key being pressed and change direction accordingly
 			if (down == false && event.key.keysym.sym == SDLK_UP) {
 				up = true;
 				left = false;
@@ -181,12 +165,71 @@ void Game::moveDirection()
 			}
 
 		}
-
 	}
 }
 
-//Game loop
-void Game::gameLoop(SDL_Renderer* renderer)
+void Game::moveUp(float delta) {
+	snakeLoc.y -= delta * hscale;
+}
+
+void Game::moveDown(float delta) {
+	snakeLoc.y += delta * hscale;
+}
+
+void Game::moveLeft(float delta) {
+	snakeLoc.x -= delta * wscale;
+}
+
+void Game::moveRight(float delta) {
+	snakeLoc.x += delta * wscale;
+}
+
+void Game::updateMove(float delta) {
+	snakeLoc.prex = snakeLoc.x;
+	snakeLoc.prey = snakeLoc.y;
+
+	//Move
+	if (up) {
+		moveUp(delta);
+	}
+	else if (down) {
+		moveDown(delta);
+	}
+	else if (left) {
+		moveLeft(delta);
+	}
+	else if (right) {
+		moveRight(delta);
+	}
+}
+
+//Game logic and loop
+void Game::gameOver(SDL_Renderer* renderer) {
+	renderGameOver(renderer, hscale, wscale);
+	snakeLoc.x = 0;
+	snakeLoc.y = 0;
+
+	up = false;
+	left = false;
+	right = false;
+	down = false;
+
+	tailX.clear();
+	tailY.clear();
+
+	tailLength = 0;
+	redo = false;
+
+	getFruitLoc(hscale, wscale);
+	fruitBox.x = fruitLoc.x;
+	fruitBox.y = fruitLoc.y;
+
+	if (fruitLoc.x == 0 && fruitLoc.y == 0) {
+		redo = true;
+	}
+}
+
+void Game::gameLoop(SDL_Renderer* renderer, SDL_Texture* bgImage)
 {
 	while (true) {
 
@@ -198,7 +241,7 @@ void Game::gameLoop(SDL_Renderer* renderer)
 
 		//If you win game
 		if (tailLength >= hscale * wscale - 1) {
-			gameWin(renderer, hscale, wscale);
+			renderGameWin(renderer, hscale, wscale);
 			snakeLoc.x = 0;
 			snakeLoc.y = 0;
 			
@@ -215,7 +258,7 @@ void Game::gameLoop(SDL_Renderer* renderer)
 			
 			getFruitLoc(hscale, wscale);
 
-			if (fruitLoc.x == -300 && fruitLoc.y == -300) {
+			if (fruitLoc.x == 0 && fruitLoc.y == 0) {
 				redo = true;
 			}
 
@@ -223,32 +266,19 @@ void Game::gameLoop(SDL_Renderer* renderer)
 			fruitBox.y = fruitLoc.y;
 		}
 
-		// Controls
+		//Control direction
 		moveDirection();
 
 		// The previous position of the player block
-		snakeLoc.prex = snakeLoc.x;
-		snakeLoc.prey = snakeLoc.y;
+		updateMove(delta);
 
-		if (up) {
-			snakeLoc.y -= delta * hscale;
-		}
-		else if (left) {
-			snakeLoc.x -= delta * hscale;
-		}
-		else if (right) {
-			snakeLoc.x += delta * hscale;
-		}
-		else if (down) {
-			snakeLoc.y += delta * hscale;
-		}
 
 		if (redo == true) {
 
 			redo = false;
 			getFruitLoc(hscale, wscale);
 
-			if (fruitLoc.x == -300 && fruitLoc.y == -300) {
+			if (fruitLoc.x == 0 && fruitLoc.y == 0) {
 				redo = true;
 			}
 
@@ -262,7 +292,7 @@ void Game::gameLoop(SDL_Renderer* renderer)
 			fruitBox.x = fruitLoc.x;
 			fruitBox.y = fruitLoc.y;
 
-			if (fruitLoc.x == -300 && fruitLoc.y == -300) {
+			if (fruitLoc.x == 0 && fruitLoc.y == 0) {
 				redo = true;
 			}
 
@@ -298,7 +328,7 @@ void Game::gameLoop(SDL_Renderer* renderer)
 		//If snake collises the window or tail
 		for (int i = 0; i < tailLength; i++) {
 			if (snakeLoc.x == tailX[i] && snakeLoc.y == tailY[i]) {
-				gameOver(renderer, hscale, wscale);
+				renderGameOver(renderer, hscale, wscale);
 				snakeLoc.x = 0;
 				snakeLoc.y = 0;
 				
@@ -314,7 +344,7 @@ void Game::gameLoop(SDL_Renderer* renderer)
 				redo = false;
 
 				getFruitLoc(hscale, wscale);
-				if (fruitLoc.x == -300 && fruitLoc.y == -300) {
+				if (fruitLoc.x == 0 && fruitLoc.y == 0) {
 					redo = true;
 				}
 
@@ -325,48 +355,20 @@ void Game::gameLoop(SDL_Renderer* renderer)
 
 		//Game over and reset
 		if (snakeLoc.x < 0 || snakeLoc.y < 0 || snakeLoc.x > hscale * wscale - hscale || snakeLoc.y > hscale * wscale - hscale) {
-			gameOver(renderer, hscale, wscale);
-			snakeLoc.x = 0;
-			snakeLoc.y = 0;
-			
-			up = false;
-			left = false;
-			right = false;
-			down = false;
-			
-			tailX.clear();
-			tailY.clear();
-			
-			tailLength = 0;
-			redo = false;
-			
-			getFruitLoc(hscale, wscale);
-			fruitBox.x = fruitLoc.x;
-			fruitBox.y = fruitLoc.y;
-			
-			if (fruitLoc.x == -300 && fruitLoc.y == -300) {
-				redo = true;
-			}
-
+			gameOver(renderer);
 		}
 
 		// Render everything
+
+		SDL_RenderCopy(renderer, bgImage, NULL, NULL);
+
 		renderFruit(renderer);
 		renderSnake(renderer, hscale);
-		printScore(renderer, hscale, wscale);
+		renderScore(renderer, hscale, wscale);
 
-		SDL_RenderDrawLine(renderer, 0, 0, 0, hscale * wscale);
-		SDL_RenderDrawLine(renderer, 0, hscale * wscale, hscale * wscale, hscale * wscale);
-		SDL_RenderDrawLine(renderer, hscale * wscale, hscale * wscale, hscale * wscale, 0);
-		SDL_RenderDrawLine(renderer, hscale * wscale, 0, 0, 0);
-
-		// Put everything on screen
-		// Nothing is actually put on screen until this is called
+		
 		SDL_RenderPresent(renderer);
-
-		// Choose a color and fill the entire window with it, this resets everything before the next frame
-		// This also give us the background color
-		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+		
 		SDL_RenderClear(renderer);
 	}
 

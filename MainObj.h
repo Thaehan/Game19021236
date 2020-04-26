@@ -3,12 +3,15 @@
 
 #include "FrameSDL.h"
 #include <iostream>
+#include <ctime>
 #include <string>
 #include <vector>
 #include <algorithm>
 #include <SDL.h>
 #include <string>
 #include <Windows.h>
+#include <SDL_ttf.h>
+#include <SDL_image.h>
 
 //Window setting - should not be change!
 const int hscale = 30;
@@ -17,6 +20,7 @@ const int wscale = 30;
 const int SCREEN_WIDTH = hscale * wscale;
 const int SCREEN_HEIGHT = hscale * wscale;
 const std::string WINDOW_TITLE = "Simple Snake by Do Van Dat";
+const std::string bgFile = "background.jpg";
 
 //Speed: >= 50 && <= 80 (50 is the fastest speed - This should not be change because it can cause errors)
 const int speed = 80;
@@ -63,23 +67,45 @@ public:
 	bool checkMove = false;
 	bool redo = false;
 
+	//Render Snake and Fruit
+
 	void renderSnake(SDL_Renderer* renderer, int hscale);
 
 	void renderFruit(SDL_Renderer* renderer);
+
+	//Get fruit location and check collision
 
 	void getFruitLoc(int hscale, int wscale);
 
 	bool checkCollision();
 
-	void printScore(SDL_Renderer* renderer, int hscale, int wscale);
+	//Render in game
 
-	void gameOver(SDL_Renderer* renderer, int hscale, int wscale);
+	void renderScore(SDL_Renderer* renderer, int hscale, int wscale);
 
-	void gameWin(SDL_Renderer* renderer, int hscale, int wscale);
+	void renderGameOver(SDL_Renderer* renderer, int hscale, int wscale);
+
+	void renderGameWin(SDL_Renderer* renderer, int hscale, int wscale);
+
+	//Direction and move
 
 	void moveDirection();
 
-	void gameLoop(SDL_Renderer* renderer);
+	void moveUp(float delta);
+
+	void moveDown(float delta);
+	
+	void moveLeft(float delta);
+
+	void moveRight(float delta);
+
+	void updateMove(float delta);
+
+	//Run Game
+
+	void gameOver(SDL_Renderer* renderer);
+
+	void gameLoop(SDL_Renderer* renderer, SDL_Texture* bgImage);
 
 	void firstFruit(SDL_Renderer* renderer);
 };
