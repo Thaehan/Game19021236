@@ -1,5 +1,8 @@
 .vs
-SDL2
+SDL2/SDL2_image-2.0.3
+SDL2/SDL2_mixer-2.0.2
+SDL2/Dll
+SDL2/SDL2_ttf-2.0.14
 Game1.vcxproj
 Game1.vcxproj.filters
 Game1.vcxproj.user
@@ -7,5 +10,3 @@ Game1.vcxproj.filters
 Game1.vcxproj
 zlib1.dll
 libfreetype-6.dll
-README
-Debug
