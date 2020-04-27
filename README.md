@@ -1,6 +1,5 @@
 # Game19021236
 
-
 This is a Simple Snake game!
 
 **Describe:
@@ -10,7 +9,9 @@ This is a Simple Snake game!
 
 - You will lose when snake collisies the the window's edges or itself. - Press Space to restart game!
 
+- You can change setting in code.
+
 **How to install:
-- This game needs SDL2 to run!
+- This game needs SDL2, SDL2_Image, SDL2_Ttf to run!
 
 - Download file "DownloadGameHere" and play!
