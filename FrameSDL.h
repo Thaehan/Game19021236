@@ -13,8 +13,8 @@ const int SCREEN_WIDTH = 600 + edge + edge;
 const int SCREEN_HEIGHT = 600 + topbar + edge;
 const std::string WINDOW_TITLE = "Simple Snake by Do Van Dat";
 
-const std::string bgFile = "background.jpg";
-const std::string fontFile = "font.ttf";
+const std::string bgFile = "data/background.jpg";
+const std::string fontFile = "data/font.ttf";
 const int fontSize = 20;
 
 const int STEP_DELAY = 70;
