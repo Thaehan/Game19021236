@@ -1,7 +1,12 @@
 #include "Font.h"
 
 font::font() {};
-font::~font() {};
+font::~font() {
+    SDL_DestroyTexture(printScore);
+    printScore = NULL;
+    SDL_DestroyTexture(printGameOver);
+    printGameOver = NULL;
+};
 
 SDL_Texture* font::renderText(const std::string& message, const std::string& fontFile, SDL_Color color, int fontSize, SDL_Renderer* renderer){
     //Open the font
@@ -33,17 +38,15 @@ SDL_Texture* font::renderText(const std::string& message, const std::string& fon
     return texture;
 }
 
-void font::renderScore(const std::string& message, const std::string& fontFile, SDL_Color color, int fontSize, SDL_Renderer* renderer, int tailLength) {
-    printScore = renderText(message, fontFile, color, fontSize, renderer);
-    gameoverRect.x = SCREEN_WIDTH / 2;
-    gameoverRect.y = 0;
-    SDL_RenderCopy(renderer, printScore, &gameoverRect, NULL);
+
+void font::renderScore(SDL_Renderer* renderer) {
+    SDL_SetRenderDrawColor(renderer, 80, 120, 140, 200);
+    SDL_RenderFillRect(renderer, &scoreRect);
+    SDL_RenderCopy(renderer, printScore, NULL, &scoreRect);
 }
 
-
-void font::renderGameOver(const std::string& message, const std::string& fontFile, SDL_Color color, int fontSize, SDL_Renderer* renderer, int tailLength) {
-    printGameOver = renderText(message, fontFile, color, fontSize, renderer);
-    gameoverRect.x = SCREEN_WIDTH / 2;
-    gameoverRect.y = SCREEN_HEIGHT / 2;
-    SDL_RenderCopy(renderer, printScore, &gameoverRect, NULL);
+void font::renderOver(SDL_Renderer* renderer) {
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
+    SDL_RenderFillRect(renderer, &gameoverRect);
+    SDL_RenderCopy(renderer, printGameOver, NULL, &gameoverRect);
 }

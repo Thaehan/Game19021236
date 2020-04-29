@@ -1,5 +1,4 @@
 .vs
-SDL2
 Game1.vcxproj
 Game1.vcxproj.filters
 Game1.vcxproj.user
@@ -8,3 +7,5 @@ Game1.vcxproj
 zlib1.dll
 libfreetype-6.dll
 README
+SDL2
+Debug

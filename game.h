@@ -12,9 +12,13 @@ public:
 	game();
 	~game();
 
+	//Background
+	SDL_Texture* bgImage = NULL;
+
+	//Check loop
 	bool redo = true;
 
-	void gameLoop(SDL_Renderer* renderer, SDL_Texture* bgImage);
+	void gameLoop(SDL_Renderer* renderer);
 
 private:
 
@@ -30,7 +34,10 @@ private:
 	void renderGameOver(SDL_Renderer* renderer);
 	void renderGameWin(SDL_Renderer* renderer);
 
+	//Event keyboard
 	SDL_Event e;
+
+	int score = 0;
 
 	int stepx = 0;
 	int stepy = 0;

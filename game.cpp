@@ -2,12 +2,23 @@
 #include "snake.h"
 #include "Fruit.h"
 #include "Font.h"
+#include "background.h"
+#include <string>
 
 snake Snake;
 fruit Fruit;
+background Background;
+font Font;
 
 game::game() {};
-game::~game() {};
+game::~game() {
+	SDL_DestroyTexture(bgImage);
+	bgImage = NULL;
+	Background.~background();
+	Font.~font();
+	Snake.~snake();
+	Fruit.~fruit();
+};
 
 void game::moveUp() {
 	if (stepy == boxSize) {
@@ -87,13 +98,14 @@ void game::control() {
 void game::reset() {
 	stepx = 0;
 	stepy = 0;
-	Snake.x = 0;
-	Snake.y = 0;
+	Snake.x = edge;
+	Snake.y = topbar;
 
 	Snake.tailX.clear();
 	Snake.tailY.clear();
 
 	Snake.tailLength = 0;
+	score = 0;
 
 	Fruit.getFruit(Snake.tailLength, Snake.tailX, Snake.tailY, Snake.x, Snake.y);;
 
@@ -103,15 +115,24 @@ void game::reset() {
 }
 
 void game::renderGameOver(SDL_Renderer* renderer) {
-	std::cout << "Oh! You lose! Press SPACE to try again!" << std::endl;
+	Font.printGameOver = Font.renderText("Game Over!", fontFile, Font.gColor, SCREEN_WIDTH / 40, renderer);
+	Font.renderOver(renderer);
+	SDL_RenderPresent(renderer);
+
 	while (true) {
 		if (SDL_PollEvent(&e)) {
 
-			if (e.type == SDL_QUIT) {
+			if (e.type == SDL_QUIT || e.key.keysym.sym == SDLK_ESCAPE) {
+				redo = false;
+				game::~game();
 				exit(0);
 			}
 
 			if (e.key.keysym.sym == SDLK_SPACE) {
+				SDL_DestroyTexture(Font.printGameOver);
+				Font.printGameOver = NULL;
+				SDL_DestroyTexture(Font.printScore);
+				Font.printScore = NULL;
 				redo = true;
 				return;
 			}
@@ -121,13 +142,15 @@ void game::renderGameOver(SDL_Renderer* renderer) {
 }
 
 void game::renderGameWin(SDL_Renderer* renderer){
-	std::cout << "Congratulation! You win snake game! Press Space to play again!";
+	std::cout << "Congratulation! You win snake game! Press Space to play again!" << std::endl;
 
 	// Congratulation
 	while (true) {
 		if (SDL_PollEvent(&e)) {
 
 			if (e.type == SDL_QUIT) {
+				redo = false;
+				game::~game();
 				exit(0);
 			}
 
@@ -141,76 +164,92 @@ void game::renderGameWin(SDL_Renderer* renderer){
 
 }
 
-void game::gameLoop(SDL_Renderer* renderer, SDL_Texture* bgImage) {
+void game::gameLoop(SDL_Renderer* renderer) {
+	//Setup for first.
+	Font.printScore = Font.renderText("Your score: " + std::to_string(score), fontFile, Font.sColor, topbar - 5, renderer);
 	Fruit.getFruit(Snake.tailLength, Snake.tailX, Snake.tailY, Snake.x, Snake.y);
-		while (true) {
-			//If win game
-			if (Snake.tailLength == (SCREEN_WIDTH / boxSize) * (SCREEN_HEIGHT / boxSize)) {
-				renderGameWin(renderer);
-				reset();
-				break;
+	while (true) {
+		//If win game
+		if (Snake.tailLength == (SCREEN_WIDTH - edge - edge / boxSize) * (SCREEN_HEIGHT - topbar - edge / boxSize)) {
+			renderGameWin(renderer);
+			reset();
+			break;
+		}
+
+		control();
+		move();
+
+		//When snake eat fruit
+		if (Fruit.x == Snake.x && Fruit.y == Snake.y) {
+			Fruit.getFruit(Snake.tailLength, Snake.tailX, Snake.tailY, Snake.x, Snake.y);
+			
+			//Update details
+			Snake.tailLength++;
+			score += 10;
+
+			//Get Score Texture
+			SDL_DestroyTexture(Font.printScore);
+			Font.printScore = NULL;
+			Font.printScore = Font.renderText("Your score: " + std::to_string(score), fontFile, Font.sColor, topbar - 5, renderer);
+		}
+
+		//Update tail
+		if (Snake.tailX.size() != Snake.tailLength) {
+			Snake.tailX.push_back(Snake.prex);
+			Snake.tailY.push_back(Snake.prey);
+		}
+
+		//Move box
+		for (int i = 0; i < Snake.tailLength; i++) {
+
+			if (i > 0) {
+				Snake.tailX[i - 1] = Snake.tailX[i];
+				Snake.tailY[i - 1] = Snake.tailY[i];
 			}
 
-			control();
-			move();
+		}
 
-			//When snake eat fruit
-			if (Fruit.x == Snake.x && Fruit.y == Snake.y) {
-				Fruit.getFruit(Snake.tailLength, Snake.tailX, Snake.tailY, Snake.x, Snake.y);;
-				Snake.tailLength++;
-			}
+		if (Snake.tailLength > 0) {
+			Snake.tailX[Snake.tailLength - 1] = Snake.prex;
+			Snake.tailY[Snake.tailLength - 1] = Snake.prey;
+		}
 
-			//Update tail
-			if (Snake.tailX.size() != Snake.tailLength) {
-				Snake.tailX.push_back(Snake.prex);
-				Snake.tailY.push_back(Snake.prey);
-			}
-
-			//Move box
-			for (int i = 0; i < Snake.tailLength; i++) {
-
-				if (i > 0) {
-					Snake.tailX[i - 1] = Snake.tailX[i];
-					Snake.tailY[i - 1] = Snake.tailY[i];
-				}
-
-			}
-
-			if (Snake.tailLength > 0) {
-				Snake.tailX[Snake.tailLength - 1] = Snake.prex;
-				Snake.tailY[Snake.tailLength - 1] = Snake.prey;
-			}
-
-			//If snake collises edge or tail
-			for (int i = 0; i < Snake.tailLength; i++) {
-				if (Snake.x == Snake.tailX[i] && Snake.y == Snake.tailY[i]) {
-					renderGameOver(renderer);
-					reset();
-					break;
-				}
-			}
-
-			if (Snake.x < 0 || Snake.y < 0 || Snake.x > SCREEN_WIDTH - boxSize || Snake.y > SCREEN_HEIGHT - boxSize) {
+		//If snake collises edge or tail
+		for (int i = 0; i < Snake.tailLength; i++) {
+			if (Snake.x == Snake.tailX[i] && Snake.y == Snake.tailY[i]) {
 				renderGameOver(renderer);
 				reset();
 				break;
 			}
+		}
+
+		if (Snake.x < edge || Snake.y < topbar || Snake.x > SCREEN_WIDTH - edge - boxSize || Snake.y > SCREEN_HEIGHT - edge - boxSize) {
+			renderGameOver(renderer);
+			reset();
+			break;
+		}
 
 
-			//Render Background
-			SDL_RenderCopy(renderer, bgImage, NULL, NULL);
+		//Render Background
+		SDL_RenderCopy(renderer, bgImage, NULL, NULL);
 
-			//Render Fruit
-			Fruit.renderFruit(renderer);
+		//Render Edge
+		Background.renderEdge(renderer);
 
-			//Render Snake
-			Snake.renderSnake(renderer);
+		//Render Score
+		Font.renderScore(renderer);
 
-			SDL_RenderPresent(renderer);
+		//Render Fruit
+		Fruit.renderFruit(renderer);
 
-			SDL_Delay(STEP_DELAY);
+		//Render Snake
+		Snake.renderSnake(renderer);
 
-			SDL_RenderClear(renderer);
-		
+		SDL_RenderPresent(renderer);
+
+		SDL_Delay(STEP_DELAY);
+
+		SDL_RenderClear(renderer);
+	
 	}
 }

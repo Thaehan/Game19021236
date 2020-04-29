@@ -12,17 +12,20 @@ class font {
 public:
 	font();
 	~font();
-	SDL_Rect scoreRect;
-	SDL_Rect gameoverRect;
+	SDL_Color sColor = { 180, 230, 110, 210 };
+	SDL_Color gColor = { 210, 110, 110, 210 };
+
+	SDL_Rect scoreRect = { edge, edge, SCREEN_WIDTH / 3, topbar - edge };
+	SDL_Rect gameoverRect = { SCREEN_WIDTH / 4, SCREEN_HEIGHT / 4, SCREEN_WIDTH / 2 , SCREEN_HEIGHT / 2 };
 
 	SDL_Texture* printScore = NULL;
 	SDL_Texture* printGameOver = NULL;
 
 	SDL_Texture* renderText(const std::string& message, const std::string& fontFile, SDL_Color color, int fontSize, SDL_Renderer* renderer);
 
-	void renderScore(const std::string& message, const std::string& fontFile, SDL_Color color, int fontSize, SDL_Renderer* renderer, int tailLength);
+	void renderScore(SDL_Renderer* renderer);
 
-	void renderGameOver(const std::string& message, const std::string& fontFile, SDL_Color color, int fontSize, SDL_Renderer* renderer, int tailLength);
+	void renderOver(SDL_Renderer* renderer);
 
 };
 

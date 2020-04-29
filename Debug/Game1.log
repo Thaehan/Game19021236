@@ -1,2 +1,3 @@
-﻿  game.cpp
-  Game1.vcxproj -> C:\Project\ran 2\Game1\Debug\Game1.exe
+﻿  Fruit.cpp
+C:\Project\Game\Game1\Fruit.cpp(15,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  Game1.vcxproj -> C:\Project\Game\Game1\Debug\Game1.exe

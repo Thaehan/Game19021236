@@ -2,7 +2,15 @@
 #include "FrameSDL.h"
 
 snake::snake() {};
-snake::~snake() {};
+snake::~snake() {
+	tailLength = 0;
+	tailX.clear();
+	tailY.clear();
+	x = 0;
+	y = 0;
+	prex = 0;
+	prey = 0;
+};
 
 void snake::renderSnake(SDL_Renderer* renderer) {
 	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);

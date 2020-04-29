@@ -6,8 +6,11 @@
 #include <SDL_ttf.h>
 #include <Windows.h>
 
-const int SCREEN_WIDTH = 600;
-const int SCREEN_HEIGHT = 600;
+const int topbar = 40;
+const int edge = 5;
+
+const int SCREEN_WIDTH = 600 + edge + edge;
+const int SCREEN_HEIGHT = 600 + topbar + edge;
 const std::string WINDOW_TITLE = "Simple Snake by Do Van Dat";
 
 const std::string bgFile = "background.jpg";
@@ -24,7 +27,7 @@ void logSDLError(std::ostream& os, const std::string& msg, bool fatal = false);
 void initSDL(SDL_Window*& window, SDL_Renderer*& renderer, int SCREEN_WITDH, int SCREEN_HEIGHT, const std::string& WINDOW_TITLE);
 
 //quit SDL
-void quitSDL(SDL_Window* window, SDL_Renderer* renderer, SDL_Texture* bgImage);
+void quitSDL(SDL_Window* window, SDL_Renderer* renderer);
 
 //Wait for a click or pressed key
 void waitKeyPressed();

@@ -36,12 +36,10 @@ void initSDL(SDL_Window*& window, SDL_Renderer*& renderer, int SCREEN_WIDTH, int
     SDL_RenderSetLogicalSize(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
 }
 
-void quitSDL(SDL_Window* window, SDL_Renderer* renderer, SDL_Texture* bgImage)
+void quitSDL(SDL_Window* window, SDL_Renderer* renderer)
 {
     SDL_DestroyRenderer(renderer);
-    SDL_DestroyTexture(bgImage);
     renderer = NULL;
-    bgImage = NULL;
     SDL_DestroyWindow(window);
     IMG_Quit();
     SDL_Quit();
