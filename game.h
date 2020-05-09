@@ -15,9 +15,6 @@ public:
 	//Background
 	SDL_Texture* bgImage = NULL;
 
-	//Check loop
-	bool redo = true;
-
 	void gameLoop(SDL_Renderer* renderer);
 
 private:

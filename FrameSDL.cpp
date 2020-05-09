@@ -45,14 +45,4 @@ void quitSDL(SDL_Window* window, SDL_Renderer* renderer)
     SDL_Quit();
 }
 
-void waitKeyPressed()
-{
-    SDL_Event e;
-    while (true) {
-        if (SDL_WaitEvent(&e) != 0 && (e.key.keysym.sym == SDLK_ESCAPE || e.type == SDL_QUIT)) {
-            return;
-        }
-        SDL_Delay(300);
-    }
-}
 

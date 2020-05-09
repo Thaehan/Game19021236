@@ -22,7 +22,7 @@ int main(int argc, char* argv[])
     //Start game
     do{
         Game.gameLoop(renderer);
-    } while (Game.redo == true);
+    } while (true);
 
     //Close game
     Game.~game();

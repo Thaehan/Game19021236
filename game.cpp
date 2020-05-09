@@ -123,7 +123,6 @@ void game::renderGameOver(SDL_Renderer* renderer) {
 		if (SDL_PollEvent(&e)) {
 
 			if (e.type == SDL_QUIT || e.key.keysym.sym == SDLK_ESCAPE) {
-				redo = false;
 				game::~game();
 				exit(0);
 			}
@@ -133,7 +132,6 @@ void game::renderGameOver(SDL_Renderer* renderer) {
 				Font.printGameOver = NULL;
 				SDL_DestroyTexture(Font.printScore);
 				Font.printScore = NULL;
-				redo = true;
 				return;
 			}
 
@@ -149,13 +147,11 @@ void game::renderGameWin(SDL_Renderer* renderer){
 		if (SDL_PollEvent(&e)) {
 
 			if (e.type == SDL_QUIT) {
-				redo = false;
 				game::~game();
 				exit(0);
 			}
 
 			if (e.key.keysym.sym == SDLK_SPACE) {
-				redo = true;
 				return;
 			}
 		}
@@ -200,7 +196,7 @@ void game::gameLoop(SDL_Renderer* renderer) {
 		}
 
 		//Move box
-		for (int i = 0; i < Snake.tailLength; i++) {
+		for (int i = 0;i < Snake.tailLength; i++) {
 
 			if (i > 0) {
 				Snake.tailX[i - 1] = Snake.tailX[i];
