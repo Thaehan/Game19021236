@@ -31,6 +31,9 @@ private:
 	void renderGameOver(SDL_Renderer* renderer);
 	void renderGameWin(SDL_Renderer* renderer);
 
+	//First check for rendering menu
+	bool firstCheck = false;
+
 	//Event keyboard
 	SDL_Event e;
 

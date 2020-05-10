@@ -12,13 +12,15 @@ public:
 	fruit();
 	~fruit();
 
-	int x;
-	int y;
+	int x = 0;
+	int y = 0;
 
 	SDL_Rect fruitBox = { 0, 0, boxSize, boxSize };
 	void getFruit(int tailLength, std::vector <int> tailX, std::vector <int> tailY, int a, int b);
 	void renderFruit(SDL_Renderer* renderer);
-	void ranFruit();
+
+private:
+	bool fruitCheck(int fx, int fy, int tailLength, std::vector <int> tailX, std::vector <int> tailY, int a, int b);
 };
 
 

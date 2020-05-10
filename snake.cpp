@@ -19,11 +19,19 @@ void snake::renderSnake(SDL_Renderer* renderer) {
 	for (int i = 0; i < tailLength; i++) {
 		snakeBox.x = tailX[i];
 		snakeBox.y = tailY[i];
+
+		SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 		SDL_RenderFillRect(renderer, &snakeBox);
+		SDL_SetRenderDrawColor(renderer, 140, 190, 235, 100);
+		SDL_RenderDrawRect(renderer, &snakeBox);
 	}
 
 	snakeBox.x = x;
 	snakeBox.y = y;
 
+	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 	SDL_RenderFillRect(renderer, &snakeBox);
+	SDL_SetRenderDrawColor(renderer, 140, 190, 235, 100);
+	SDL_RenderDrawRect(renderer, &snakeBox);
+
 }

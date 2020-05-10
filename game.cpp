@@ -115,8 +115,7 @@ void game::reset() {
 }
 
 void game::renderGameOver(SDL_Renderer* renderer) {
-	Font.printGameOver = Font.renderText("Game Over!", fontFile, Font.gColor, SCREEN_WIDTH / 40, renderer);
-	Font.renderOver(renderer);
+	Font.renderOver("GAME OVER!", "Press SPACE to try again!", fontFile, Font.gColor, SCREEN_WIDTH / 4, renderer, bgImage);
 	SDL_RenderPresent(renderer);
 
 	while (true) {
@@ -128,10 +127,10 @@ void game::renderGameOver(SDL_Renderer* renderer) {
 			}
 
 			if (e.key.keysym.sym == SDLK_SPACE) {
-				SDL_DestroyTexture(Font.printGameOver);
-				Font.printGameOver = NULL;
-				SDL_DestroyTexture(Font.printScore);
-				Font.printScore = NULL;
+				SDL_DestroyTexture(Font.printGameOver1);
+				SDL_DestroyTexture(Font.printGameOver2);
+				Font.printGameOver1 = NULL;
+				Font.printGameOver1 = NULL;
 				return;
 			}
 
@@ -161,10 +160,35 @@ void game::renderGameWin(SDL_Renderer* renderer){
 }
 
 void game::gameLoop(SDL_Renderer* renderer) {
+	//Setup menu game
+	if (firstCheck == false) {
+		Font.renderMenu("Simple Snake", "Press SPACE to play!", fontFile, Font.mColor, SCREEN_HEIGHT / 4, renderer, bgImage);
+	}
+	while (firstCheck == false) {
+		if (SDL_WaitEvent(&e) == 0) {
+			continue;
+		}
+		if (e.key.keysym.sym == SDLK_ESCAPE || e.type == SDL_QUIT) {
+			game::~game();
+			exit(0);
+		}
+		if (e.key.keysym.sym == SDLK_SPACE) {
+			firstCheck = true;
+			SDL_DestroyTexture(Font.printMenu1);
+			SDL_DestroyTexture(Font.printMenu2);
+			Font.printMenu1 = NULL;
+			Font.printMenu2 = NULL;
+			SDL_RenderClear(renderer);
+			break;
+		}
+	}
+
 	//Setup for first.
 	Font.printScore = Font.renderText("Your score: " + std::to_string(score), fontFile, Font.sColor, topbar - 5, renderer);
 	Fruit.getFruit(Snake.tailLength, Snake.tailX, Snake.tailY, Snake.x, Snake.y);
+	
 	while (true) {
+		
 		//If win game
 		if (Snake.tailLength == (SCREEN_WIDTH - edge - edge / boxSize) * (SCREEN_HEIGHT - topbar - edge / boxSize)) {
 			renderGameWin(renderer);

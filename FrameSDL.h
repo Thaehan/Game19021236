@@ -29,7 +29,4 @@ void initSDL(SDL_Window*& window, SDL_Renderer*& renderer, int SCREEN_WITDH, int
 //quit SDL
 void quitSDL(SDL_Window* window, SDL_Renderer* renderer);
 
-//Wait for a click or pressed key
-void waitKeyPressed();
-
 #endif

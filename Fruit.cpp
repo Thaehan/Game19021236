@@ -6,27 +6,23 @@ fruit::~fruit() {
 	y = 0;
 };
 
-void fruit::ranFruit() {
-	x = edge + boxSize * (rand() % ((SCREEN_WIDTH - edge) / boxSize));
-	y = topbar + boxSize * (rand() % ((SCREEN_HEIGHT - topbar) / boxSize));
+//Check random of the fruit
+bool fruit::fruitCheck(int fx, int fy, int tailLength, std::vector <int> tailX, std::vector <int> tailY, int a, int b) {
+	for (int i = 0; i < tailLength; i++) {
+		if (fx == a && fy == b || fx == tailX[i] && fy == tailY[i]) {
+			return 1;
+		}
+	}
+	return 0;
 }
 
 void fruit::getFruit(int tailLength, std::vector <int> tailX, std::vector <int> tailY, int a, int b) {
 	srand(time(0));
-	bool check = false;
-
-	//Check Snake tail and head to spawn fruit
-	for (int i = 0; i < tailLength; i++) {
-		if (tailX[i] != x && tailY[i] != y && x != a && x != b) {
-			check = true;
-		}
-		else {
-			check = false;
-		}
-	}
-	if (check == false) {
-		ranFruit();
-	}
+	
+	do {
+		x = edge + boxSize * (rand() % ((SCREEN_WIDTH - edge) / boxSize));
+		y = topbar + boxSize * (rand() % ((SCREEN_HEIGHT - topbar) / boxSize));
+	} while (fruitCheck(x, y, tailLength, tailX, tailY, a, b));
 
 }
 
@@ -35,5 +31,7 @@ void fruit::renderFruit(SDL_Renderer* renderer) {
 	fruitBox.y = y;
 	SDL_SetRenderDrawColor(renderer, 255, 255, 0, 255);
 	SDL_RenderFillRect(renderer, &fruitBox);
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+	SDL_RenderDrawRect(renderer, &fruitBox);
 }
 
