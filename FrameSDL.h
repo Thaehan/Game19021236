@@ -9,16 +9,16 @@
 const int topbar = 40;
 const int edge = 5;
 
-const int SCREEN_WIDTH = 600 + edge + edge;
-const int SCREEN_HEIGHT = 600 + topbar + edge;
-const std::string WINDOW_TITLE = "Simple Snake by Do Van Dat";
+const int SCREEN_WIDTH = 800 + edge + edge;
+const int SCREEN_HEIGHT = 800 + topbar + edge;
+const std::string WINDOW_TITLE = "Simple Snake";
 
 const std::string bgFile = "data/background.jpg";
 const std::string fontFile = "data/font.ttf";
 const int fontSize = 20;
 
 const int STEP_DELAY = 70;
-const int boxSize = 30;
+const int boxSize = 40;
 
 //This function will show the Error: standard output - Name of error - check funtion
 void logSDLError(std::ostream& os, const std::string& msg, bool fatal = false);

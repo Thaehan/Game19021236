@@ -127,8 +127,10 @@ void game::renderGameOver(SDL_Renderer* renderer) {
 			}
 
 			if (e.key.keysym.sym == SDLK_SPACE) {
+				SDL_DestroyTexture(Font.printScore);
 				SDL_DestroyTexture(Font.printGameOver1);
 				SDL_DestroyTexture(Font.printGameOver2);
+				Font.printScore = NULL;
 				Font.printGameOver1 = NULL;
 				Font.printGameOver1 = NULL;
 				return;
@@ -187,6 +189,7 @@ void game::gameLoop(SDL_Renderer* renderer) {
 	Font.printScore = Font.renderText("Your score: " + std::to_string(score), fontFile, Font.sColor, topbar - 5, renderer);
 	Fruit.getFruit(Snake.tailLength, Snake.tailX, Snake.tailY, Snake.x, Snake.y);
 	
+	//Game run
 	while (true) {
 		
 		//If win game
