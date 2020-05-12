@@ -13,5 +13,3 @@ This is a Simple Snake game!
 
 **How to install:
 - This game needs SDL2, SDL2_Image, SDL2_Ttf to run!
-
-- Download file "DownloadGameHere" and play!
