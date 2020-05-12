@@ -164,6 +164,10 @@ void game::renderGameWin(SDL_Renderer* renderer){
 void game::gameLoop(SDL_Renderer* renderer) {
 	//Setup menu game
 	if (firstCheck == false) {
+		//Load image background
+		bgImage = Background.loadTexture(bgFile, renderer);
+
+		//Menu
 		Font.renderMenu("Simple Snake", "Press SPACE to play!", fontFile, Font.mColor, SCREEN_HEIGHT / 4, renderer, bgImage);
 	}
 	while (firstCheck == false) {

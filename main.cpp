@@ -13,11 +13,7 @@ int main(int argc, char* argv[])
     initSDL(window, renderer, SCREEN_WIDTH, SCREEN_HEIGHT, WINDOW_TITLE);
 
     //Game class
-    background Background;
     game Game;
-
-    //Load image background
-    Game.bgImage = Background.loadTexture(bgFile, renderer);
 
     //Start game
     do{

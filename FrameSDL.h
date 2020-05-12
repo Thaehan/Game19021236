@@ -17,8 +17,8 @@ const std::string bgFile = "data/background.jpg";
 const std::string fontFile = "data/font.ttf";
 const int fontSize = 20;
 
-const int STEP_DELAY = 70;
-const int boxSize = 40;
+const int STEP_DELAY = 80;
+const int boxSize = 50;
 
 //This function will show the Error: standard output - Name of error - check funtion
 void logSDLError(std::ostream& os, const std::string& msg, bool fatal = false);
