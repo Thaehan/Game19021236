@@ -1,4 +1,4 @@
-# Game19021236
+# Simple Snake
 
 This is a Simple Snake game!
 
